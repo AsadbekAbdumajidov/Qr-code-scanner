@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/service/service_url.dart';
 
 class AboutWidget extends StatelessWidget {
   const AboutWidget({Key? key}) : super(key: key);
@@ -6,7 +7,7 @@ class AboutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.15,
+      height: MediaQuery.of(context).size.height * 0.16,
       width: MediaQuery.of(context).size.width * 0.8,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
@@ -38,7 +39,7 @@ class AboutWidget extends StatelessWidget {
               ),
             ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
@@ -46,73 +47,42 @@ class AboutWidget extends StatelessWidget {
                   style: TextStyle(
                       fontFamily: "balo", fontWeight: FontWeight.bold),
                 ),
-                Row(
-                  children: const [
-                    Icon(
-                      Icons.check,
-                      color: Colors.black38,
+                OutlinedButton(style: OutlinedButton.styleFrom(
+                    fixedSize: const Size(100, 20),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    Text(
-                      "Telegram",
-                      style: TextStyle(
-                        fontFamily: "balo",
-                        color: Colors.black54,
-                      ),
-                    )
-                  ],
+                  ),
+                  onPressed: (() =>
+                      ServiceUrl.launchURL("https://t.me/asadbek_blog1")),
+                  child: const Text(
+                    "Telegram",
+                    style: TextStyle(
+                      fontFamily: "balo",
+                      color: Colors.black54,
+                    ),
+                  ),
                 ),
-                Row(
-                  children: const [
-                    Icon(
-                      Icons.check,
-                      color: Colors.black38,
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    fixedSize: const Size(100, 20),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    Text(
-                      "Git Hub",
-                      style: TextStyle(
-                        fontFamily: "balo",
-                        color: Colors.black54,
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: const [
-                    Icon(
-                      Icons.check,
-                      color: Colors.black38,
+                  ),
+                  onPressed: (() =>
+                      ServiceUrl.launchURL("https://github.com/BekFlutterDev")),
+                  child: const Text(
+                    "Git Hub",
+                    style: TextStyle(
+                      fontFamily: "balo",
+                      color: Colors.black54,
                     ),
-                    Text(
-                      "Instagram",
-                      style: TextStyle(
-                        fontFamily: "balo",
-                        color: Colors.black54,
-                      ),
-                    )
-                  ],
+                  ),
                 ),
               ],
             ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.045,
-              width: MediaQuery.of(context).size.width * 0.2,
-              decoration: BoxDecoration(
-                color: Colors.amber.shade800,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(15),
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  "Flutter",
-                  style: TextStyle(
-                    fontFamily: "balo",
-                    fontSize: MediaQuery.of(context).size.height * 0.02,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            
           ],
         ),
       ),

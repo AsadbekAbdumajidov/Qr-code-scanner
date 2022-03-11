@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:qr_code_scanner/screens/widgets/about_widget.dart';
+import 'package:qr_code_scanner/service/service_url.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Scanner extends StatefulWidget {
@@ -158,15 +159,12 @@ class _ScannerState extends State<Scanner> {
       desc: scanBarcode,
       btnOk: OutlinedButton(
         onPressed: () {
-          launchURL(scanBarcode);
+          ServiceUrl.launchURL(scanBarcode);
         },
         child: const Text("Quyidagi linkga kirish"),
       ),
     )..show();
   }
 
-  void launchURL(text) async {
-    String _url = text;
-    if (!await launch(_url)) throw 'Could not launch $_url';
-  }
+  
 }
