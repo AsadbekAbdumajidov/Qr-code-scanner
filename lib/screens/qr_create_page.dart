@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:qr_code_scanner/screens/widgets/about_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Scanner extends StatefulWidget {
   const Scanner({Key? key}) : super(key: key);
@@ -15,15 +14,9 @@ class Scanner extends StatefulWidget {
 
 class _ScannerState extends State<Scanner> {
   String scanBarcode = "Bo'sh";
-
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<void> startBarcodeScanStream() async {
-    FlutterBarcodeScanner.getBarcodeStreamReceiver(
-        '#ff6666', 'Cancel', true, ScanMode.BARCODE)!;
   }
 
   Future<void> scanQR() async {
@@ -33,14 +26,11 @@ class _ScannerState extends State<Scanner> {
           '#ff6666', 'Cancel', true, ScanMode.QR);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
-      myAvesomeDialog(context, barcodeScanRes);
     }
-
     if (!mounted) return;
-    barcodeScanRes = "Platforma linkini olib bo'lmadi";
-    myAvesomeDialog(context, barcodeScanRes);
     setState(() {
       scanBarcode = barcodeScanRes;
+      myAvesomeDialog(scanBarcode);
     });
   }
 
@@ -48,18 +38,14 @@ class _ScannerState extends State<Scanner> {
     String barcodeScanRes;
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+          '#ff6666', "Cancel", true, ScanMode.BARCODE);
     } on PlatformException {
-      barcodeScanRes = 'Platforma versiyasini olib bo‘lmadi.';
-      myAvesomeDialog(context, barcodeScanRes);
+      barcodeScanRes = 'Failed to get platform version.';
     }
-
     if (!mounted) return;
-    barcodeScanRes = "Platforma linkini olib bo'lmadi";
-    myAvesomeDialog(context, barcodeScanRes);
-
     setState(() {
       scanBarcode = barcodeScanRes;
+      myAvesomeDialog(scanBarcode);
     });
   }
 
@@ -75,8 +61,8 @@ class _ScannerState extends State<Scanner> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.05,
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.05,
               ),
               child: const AboutWidget(),
             ),
@@ -119,11 +105,11 @@ class _ScannerState extends State<Scanner> {
                       ),
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
                             style: OutlinedButton.styleFrom(
-                              fixedSize: const Size(200, 40),
+                              fixedSize: const Size(220, 50),
                               backgroundColor: const Color(0xff366451),
                               shape: const RoundedRectangleBorder(
                                 borderRadius:
@@ -137,30 +123,18 @@ class _ScannerState extends State<Scanner> {
                             )),
                         ElevatedButton(
                             style: OutlinedButton.styleFrom(
-                              fixedSize: const Size(200, 40),
+                              fixedSize: const Size(220, 50),
                               backgroundColor: const Color(0xff366451),
                               shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ),
                             ),
-                            onPressed: () => scanQR(),
+                            onPressed: () {
+                              scanQR();
+                            },
                             child: const Text(
-                              'QR skanerlashni',
-                              style: TextStyle(fontFamily: "balo"),
-                            )),
-                        ElevatedButton(
-                            style: OutlinedButton.styleFrom(
-                              fixedSize: const Size(200, 40),
-                              backgroundColor: const Color(0xff366451),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              ),
-                            ),
-                            onPressed: () => startBarcodeScanStream(),
-                            child: const Text(
-                              'Oqimli skanerlash',
+                              'QR skanerlash',
                               style: TextStyle(fontFamily: "balo"),
                             )),
                       ],
@@ -175,17 +149,24 @@ class _ScannerState extends State<Scanner> {
     );
   }
 
-  myAvesomeDialog(context, text) {
+  myAvesomeDialog(text) {
     return AwesomeDialog(
       dismissOnBackKeyPress: true,
       context: context,
       dialogBackgroundColor: Colors.white,
-      desc: text.toString(),
+      title: 'Skanerlash natijasi',
+      desc: scanBarcode,
+      btnOk: OutlinedButton(
+        onPressed: () {
+          launchURL(scanBarcode);
+        },
+        child: const Text("Quyidagi linkga kirish"),
+      ),
     )..show();
   }
-}
 
-/* Text(
-                    'Skanerlash natijasi : $_scanBarcode\n',
-                    style: const TextStyle(fontSize: 20,fontFamily: "balo"),
-                  ),*/
+  void launchURL(text) async {
+    String _url = text;
+    if (!await launch(_url)) throw 'Could not launch $_url';
+  }
+}

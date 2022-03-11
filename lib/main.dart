@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'screens/qr_create_page.dart';
 
 void main() {
@@ -11,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const  MaterialApp(
+    return  const MaterialApp(
       title: 'Qr code Scanner',
       debugShowCheckedModeBanner: false,
       home:  Scanner()
