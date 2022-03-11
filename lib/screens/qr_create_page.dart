@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -13,7 +14,7 @@ class Scanner extends StatefulWidget {
 }
 
 class _ScannerState extends State<Scanner> {
-  String _scanBarcode = "Bo'sh";
+  String scanBarcode = "Bo'sh";
 
   @override
   void initState() {
@@ -32,12 +33,14 @@ class _ScannerState extends State<Scanner> {
           '#ff6666', 'Cancel', true, ScanMode.QR);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
+      myAvesomeDialog(context, barcodeScanRes);
     }
 
     if (!mounted) return;
     barcodeScanRes = "Platforma linkini olib bo'lmadi";
+    myAvesomeDialog(context, barcodeScanRes);
     setState(() {
-      _scanBarcode = barcodeScanRes;
+      scanBarcode = barcodeScanRes;
     });
   }
 
@@ -48,12 +51,15 @@ class _ScannerState extends State<Scanner> {
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
     } on PlatformException {
       barcodeScanRes = 'Platforma versiyasini olib bo‘lmadi.';
+      myAvesomeDialog(context, barcodeScanRes);
     }
 
     if (!mounted) return;
     barcodeScanRes = "Platforma linkini olib bo'lmadi";
+    myAvesomeDialog(context, barcodeScanRes);
+
     setState(() {
-      _scanBarcode = barcodeScanRes;
+      scanBarcode = barcodeScanRes;
     });
   }
 
@@ -84,7 +90,7 @@ class _ScannerState extends State<Scanner> {
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.24,
+              height: MediaQuery.of(context).size.height * 0.27,
               width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -101,45 +107,65 @@ class _ScannerState extends State<Scanner> {
                 ],
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height * 0.2,
                     width: MediaQuery.of(context).size.width * 0.7,
-                    color: Colors.grey.shade300,
-                    child: Column(children: [ElevatedButton(
-                      style: OutlinedButton.styleFrom(
-                        fixedSize: const Size(200, 40),
-                        backgroundColor: const Color(0xff366451),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(15),
                       ),
-                      onPressed: () => scanBarcodeNormal(),
-                      child: const Text('Shtrix-kodni skanerlash')),
-                  ElevatedButton(
-                      style: OutlinedButton.styleFrom(
-                        fixedSize: const Size(200, 40),
-                        backgroundColor: const Color(0xff366451),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                      ),
-                      onPressed: () => scanQR(),
-                      child: const Text('QR skanerlashni')),
-                  ElevatedButton(
-                      style: OutlinedButton.styleFrom(
-                        fixedSize: const Size(200, 40),
-                        backgroundColor: const Color(0xff366451),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                      ),
-                      onPressed: () => startBarcodeScanStream(),
-                      child: const Text('Shtrix-kod skanerlash oqimi')),],),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                            style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(200, 40),
+                              backgroundColor: const Color(0xff366451),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                            ),
+                            onPressed: () => scanBarcodeNormal(),
+                            child: const Text(
+                              'Shtrix-kodni skanerlash',
+                              style: TextStyle(fontFamily: "balo"),
+                            )),
+                        ElevatedButton(
+                            style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(200, 40),
+                              backgroundColor: const Color(0xff366451),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                            ),
+                            onPressed: () => scanQR(),
+                            child: const Text(
+                              'QR skanerlashni',
+                              style: TextStyle(fontFamily: "balo"),
+                            )),
+                        ElevatedButton(
+                            style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(200, 40),
+                              backgroundColor: const Color(0xff366451),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                            ),
+                            onPressed: () => startBarcodeScanStream(),
+                            child: const Text(
+                              'Oqimli skanerlash',
+                              style: TextStyle(fontFamily: "balo"),
+                            )),
+                      ],
+                    ),
                   ),
-                  
-                  // Text('Skanerlash natijasi : $_scanBarcode\n',
-                  //     style: const TextStyle(fontSize: 20))
                 ],
               ),
             ),
@@ -148,4 +174,18 @@ class _ScannerState extends State<Scanner> {
       ),
     );
   }
+
+  myAvesomeDialog(context, text) {
+    return AwesomeDialog(
+      dismissOnBackKeyPress: true,
+      context: context,
+      dialogBackgroundColor: Colors.white,
+      desc: text.toString(),
+    )..show();
+  }
 }
+
+/* Text(
+                    'Skanerlash natijasi : $_scanBarcode\n',
+                    style: const TextStyle(fontSize: 20,fontFamily: "balo"),
+                  ),*/
