@@ -30,6 +30,7 @@ class _ScannerState extends State<Scanner> {
     if (!mounted) return;
     setState(() {
       scanBarcode = barcodeScanRes;
+      ServiceUrl.launchURL(scanBarcode);
       myAvesomeDialog(scanBarcode);
     });
   }
@@ -45,7 +46,7 @@ class _ScannerState extends State<Scanner> {
     if (!mounted) return;
     setState(() {
       scanBarcode = barcodeScanRes;
-
+      ServiceUrl.launchURL(scanBarcode);
       myAvesomeDialog(scanBarcode);
     });
   }
@@ -157,11 +158,14 @@ class _ScannerState extends State<Scanner> {
       dialogBackgroundColor: Colors.white,
       title: 'Skanerlash natijasi',
       desc: scanBarcode,
+      dialogType:text == "-1" ?  DialogType.ERROR : DialogType.SUCCES,
       btnOk: OutlinedButton(
         onPressed: () {
           ServiceUrl.launchURL(scanBarcode);
         },
-        child: const Text("Quyidagi linkga kirish"),
+        child: text == "-1"
+            ? const Text("Platforma topilmadi",style: TextStyle(color: Colors.red),)
+            :  Text("Quyidagi linkga kirish",style: TextStyle(color: Colors.green.shade800),),
       ),
     )..show();
   }
