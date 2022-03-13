@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:qr_code_scanner/screens/widgets/about_widget.dart';
 import 'package:qr_code_scanner/service/service_url.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Scanner extends StatefulWidget {
   const Scanner({Key? key}) : super(key: key);
@@ -46,6 +45,7 @@ class _ScannerState extends State<Scanner> {
     if (!mounted) return;
     setState(() {
       scanBarcode = barcodeScanRes;
+
       myAvesomeDialog(scanBarcode);
     });
   }
@@ -165,6 +165,4 @@ class _ScannerState extends State<Scanner> {
       ),
     )..show();
   }
-
-  
 }

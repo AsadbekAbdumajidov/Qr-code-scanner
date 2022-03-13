@@ -47,7 +47,8 @@ class AboutWidget extends StatelessWidget {
                   style: TextStyle(
                       fontFamily: "balo", fontWeight: FontWeight.bold),
                 ),
-                OutlinedButton(style: OutlinedButton.styleFrom(
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
                     fixedSize: const Size(100, 20),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -82,7 +83,6 @@ class AboutWidget extends StatelessWidget {
                 ),
               ],
             ),
-            
           ],
         ),
       ),
