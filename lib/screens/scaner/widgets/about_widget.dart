@@ -7,7 +7,7 @@ class AboutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.16,
+      height: MediaQuery.of(context).size.height * 0.17,
       width: MediaQuery.of(context).size.width * 0.8,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
@@ -51,7 +51,7 @@ class AboutWidget extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     fixedSize: const Size(100, 20),
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                   ),
                   onPressed: (() =>
@@ -68,7 +68,7 @@ class AboutWidget extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     fixedSize: const Size(100, 20),
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                   ),
                   onPressed: (() =>
